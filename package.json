@@ -17,6 +17,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@sandercokart/eslint-config": "^1.0.0",
     "@sandercokart/prettier-config": "^2.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
