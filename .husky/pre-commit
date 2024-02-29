@@ -1,0 +1,4 @@
+npm run prettier
+
+# Uncomment the line below to preform a dry run of the git hooks without submitting the commit.
+# exit 1
