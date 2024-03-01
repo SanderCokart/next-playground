@@ -1,0 +1,27 @@
+services:
+  app:
+    image: next-playground:prod
+    container_name: next-playground-prod
+    restart: on-failure
+    extra_hosts:
+      # Without this line, docker container on linux can't access host machine
+      - host.docker.internal:host-gateway
+
+    environment:
+      # To avoid installing Git Hooks on CI servers or in Docker, use HUSKY=0.
+      HUSKY: 0
+      # Enable BuildKit for Docker which provides better caching and performance
+      DOCKER_BUILDKIT: 1
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        # Args are passed via a .env file present in the root directory to keep the secrets safe
+        # Create a .env file in the root directory and add the following lines
+        #NPM_TOKEN: $NPM_TOKEN
+        #SENTRY_AUTH_TOKEN: $SENTRY_AUTH_TOKEN
+        API_URL: $API_URL
+
+    ports:
+      # Next.js runs on port 3000 by default, we are mapping it to the same port on the host machine
+      - "3000:3000"

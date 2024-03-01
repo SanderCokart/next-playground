@@ -1,0 +1,20 @@
+# misc files
+*.md
+.dockerignore
+.git
+.gitignore
+
+# misc folders
+.next
+node_modules
+
+# docker
+Dockerfile
+docker-compose.yml
+
+# enviorment variables are passed via build args and the root directory .env file.
+.env**
+
+# editors
+/.vscode
+/.idea
