@@ -9,7 +9,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,scss,mjs,mts}": [
+    "*.{js,jsx,ts,tsx,mjs,mts}": [
       "eslint --fix",
       "prettier --write"
     ]
@@ -55,7 +55,6 @@
     "cmdk": "^0.2.1",
     "date-fns": "^3.3.1",
     "embla-carousel-react": "^8.0.0",
-    "lint-staged": "^15.2.2",
     "lucide-react": "^0.343.0",
     "million": "^3.0.3",
     "next": "14.1.0",
@@ -75,6 +74,7 @@
   "devDependencies": {
     "@sandercokart/eslint-config": "^1.0.0",
     "@sandercokart/prettier-config": "^2.0.2",
+    "@tailwindcss/typography": "^0.5.10",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -82,6 +82,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
