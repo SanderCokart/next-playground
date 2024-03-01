@@ -1,5 +1,5 @@
 npm run prettier
-npm run lint --max-warnings=0
+npm run lint --fix --max-warnings=0
 
 # Uncomment the line below to preform a dry run of the git hooks without submitting the commit.
 # exit 1
