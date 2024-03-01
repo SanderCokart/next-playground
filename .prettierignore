@@ -1,0 +1,6 @@
+node_modules
+.next
+.husky
+public
+.eslintrc.json
+tsconfig.json
