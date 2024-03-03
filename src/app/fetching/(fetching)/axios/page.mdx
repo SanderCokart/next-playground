@@ -1,5 +1,5 @@
-import { Sheet, SheetContent, SheetContentClose, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetContentClose, SheetTrigger } from '@/components/ui/sheet';
 
 # Axios
 
@@ -7,27 +7,34 @@ Axios is a promise-based HTTP client for the browser and Node.js. It has a lot o
 We will leave you the official documentation here but we will also show you some examples of how to use it.
 
 <Sheet>
-    <SheetTrigger asChild>
-        <Button>Axios Docs</Button>
-    </SheetTrigger>
-    <SheetContent hideClose className="m-0 p-0" side="bottom">
-        <iframe className="h-[90dvh] w-full" src="https://axios-http.com/docs/intro" title="axios-docs" />
-        <SheetContentClose className="right-8 top-4" />
-    </SheetContent>
+  <SheetTrigger asChild>
+    <Button>Axios Docs</Button>
+  </SheetTrigger>
+  <SheetContent hideClose className="m-0 p-0" side="bottom">
+    <iframe className="h-[90dvh] w-full" src="https://axios-http.com/docs/intro" title="axios-docs" />
+    <SheetContentClose className="right-8 top-4" />
+  </SheetContent>
 </Sheet>
 
 ## Main Features
+
 Axios is one of the most popular libraries for making HTTP requests. For React and Vue applications, it is
 very common because it automatically handles CSRF tokens via XSRF headers. It can also ease the process of JWT
 authentication and refresh tokens by utilizing interceptors.
 
-
 However, ever since Next.js has introduced the new
-<a href="https://nextjs.org/docs/app" target="_blank">'app router'</a>
+
+<a href="https://nextjs.org/docs/app" target="_blank">
+  'app router'
+</a>
 people have started reverting to native fetch. The reason behind this is that: "Next.js
-<a href="https://nextjs.org/docs/app/api-reference/functions/fetch" target="_blank">extends</a>
+<a href="https://nextjs.org/docs/app/api-reference/functions/fetch" target="_blank">
+  extends
+</a>
 the native
-<a href="https://developer.mozilla.org/docs/Web/API/Fetch_API" target="_blank">Web fetch()</a>
+<a href="https://developer.mozilla.org/docs/Web/API/Fetch_API" target="_blank">
+  Web fetch()
+</a>
 API to allow each request on the server to set its own persistent caching semantics".
 
 ## Maximise Axios utility for Next.js Applications
@@ -37,11 +44,10 @@ do proper handling in server vs client instances. I could go into the specifics 
 since most people should probably use fetch() instead of Axios, I will leave you with the source code of my
 Axios API class.
 
-```javascript showLineNumbers title="api.ts"
+```javascript title="API.ts"
 import axios, { isAxiosError } from 'axios';
 
 import { notFound } from 'next/navigation';
-// import { captureException } from 'sentry';
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
@@ -288,4 +294,5 @@ class API {
 
 export { API };
 export type { ResponseType, FieldError, FieldErrors, ApiConfig };
+
 ```

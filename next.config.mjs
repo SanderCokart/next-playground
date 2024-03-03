@@ -1,6 +1,6 @@
 import createMDX from '@next/mdx';
 import { next as withMillion } from 'million/compiler';
-import rehypePrettyCode from 'rehype-pretty-code';
+import rehypeMdxCodeProps from 'rehype-mdx-code-props';
 import remarkGfm from 'remark-gfm';
 
 const nextConfig = {
@@ -13,15 +13,10 @@ const millionConfig = {
   auto: false,
 };
 
-/** @type {import('rehype-pretty-code').Options} */
-const options = {
-  theme: 'tokyo-night',
-};
-
 const withMDX = createMDX({
   options: {
     remarkPlugins: [remarkGfm],
-    rehypePlugins: [[rehypePrettyCode, options]],
+    rehypePlugins: [rehypeMdxCodeProps],
   },
 });
 
