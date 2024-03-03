@@ -14,7 +14,7 @@ import {
 
 import { cn } from '@/lib/utils';
 
-import { navigation } from './navigation';
+import { navigation } from '../../constants/navigation';
 
 export const DesktopNav = () => {
   return (

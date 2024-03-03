@@ -4,7 +4,7 @@ import { TbBrandNextjs } from 'react-icons/tb';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/sheet';
 
-import { navigation } from './navigation';
+import { navigation } from '../../constants/navigation';
 
 export const MobileNav = () => {
   return (

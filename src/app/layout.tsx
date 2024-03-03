@@ -10,8 +10,8 @@ import Link from 'next/link';
 
 import type { LayoutType } from '@/app/types/common-types';
 
-import { DesktopNav } from '@/app/test/desktop-nav';
-import { MobileNav } from '@/app/test/mobile-nav';
+import { DesktopNav } from '@/app/components/desktop-nav';
+import { MobileNav } from '@/app/components/mobile-nav';
 
 import { GlobalProviders } from './components/global-providers';
 

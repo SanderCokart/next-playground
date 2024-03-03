@@ -53,7 +53,33 @@
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-background text-foreground min-h-screen font-sans antialiased;
+    @apply min-h-screen bg-background font-sans text-foreground antialiased;
+  }
+
+  article {
+    code {
+      counter-reset: line;
+    }
+
+    code > [data-line]::before {
+      counter-increment: line;
+      content: counter(line);
+
+      @apply mr-4 inline-block w-[1ch] text-right text-muted-foreground;
+    }
+
+    code[data-line-numbers-max-digits='2'] > [data-line]::before {
+      @apply w-[2ch];
+    }
+
+    code[data-line-numbers-max-digits='3'] > [data-line]::before {
+      @apply w-[3ch];
+    }
+
+    [data-rehype-pretty-code-title] {
+      @apply font-bold text-primary text-2xl mb-1 w-min;
+    }
   }
 }
