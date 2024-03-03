@@ -1,0 +1,9 @@
+const params = { limit: 10 };
+
+const {
+  data: articles,
+  status,
+  errors,
+} = await API.get<Article[], typeof params>('/articles', {
+  params,
+});

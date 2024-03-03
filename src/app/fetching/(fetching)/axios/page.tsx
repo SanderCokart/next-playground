@@ -1,31 +1,58 @@
 import fs from 'fs';
 import path from 'path';
 
-import hljs from 'highlight.js/lib/core';
+import hljs from 'highlight.js';
 
 import 'highlight.js/styles/tokyo-night-dark.css';
 
-import typescript from 'highlight.js/lib/languages/typescript';
+// import typescript from 'highlight.js/lib/languages/typescript';
 
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetContentClose, SheetTrigger } from '@/components/ui/sheet';
 
 import { CodeSheet } from '@/app/components/code-sheet';
 
-hljs.registerLanguage('typescript', typescript);
+// hljs.registerLanguage('typescript', typescript);
+
+/**
+ * @param relativePath -  path relative to the src folder
+ * @param language - code language for syntax highlighting
+ * @returns [source, highlightedSource]
+ */
+const processCode = (relativePath: string, language: string): [string, string] => {
+  const srcPath = path.join(process.cwd(), '/src' + relativePath);
+  const source = fs.readFileSync(srcPath, 'utf-8');
+  const highlightedSource = hljs.highlight(source, { language }).value;
+
+  return [source, highlightedSource] as const;
+};
 
 export default async function AxiosPage() {
-  const srcPathAxios = path.join(process.cwd(), '/src/app/fetching/(fetching)/axios/api.ts');
-  const sourceAxios = fs.readFileSync(srcPathAxios, 'utf-8');
-  const highlightedSourceAxios = hljs.highlight(sourceAxios, { language: 'typescript' }).value;
+  const [sourceAxios, highlightedSourceAxios] = processCode('/app/fetching/(fetching)/axios/api.ts', 'javascript');
 
-  const srcPathFormHelpers = path.join(process.cwd(), '/src/app/fetching/(fetching)/axios/form-helpers.ts');
-  const sourceFormHelpers = fs.readFileSync(srcPathFormHelpers, 'utf-8');
-  const highlightedSourceFormHelpers = hljs.highlight(sourceFormHelpers, { language: 'typescript' }).value;
+  const [sourceFormHelpers, highlightedSourceFormHelpers] = processCode(
+    '/app/fetching/(fetching)/axios/form-helpers.ts',
+    'javascript',
+  );
+
+  const [sourceExample1, highlightedSourceExample1] = processCode(
+    '/app/fetching/(fetching)/axios/axios-example-1.txt',
+    'javascript',
+  );
+
+  const [sourceSnippet1, highlightedSourceSnippet1] = processCode(
+    '/app/fetching/(fetching)/axios/axios-snippet-1.txt',
+    'javascript',
+  );
+
+  const [sourceSnippet2, highlightedSourceSnippet2] = processCode(
+    '/app/fetching/(fetching)/axios/axios-snippet-2.txt',
+    'javascript',
+  );
 
   return (
     <main>
-      <article className="prose mx-auto py-8 dark:prose-invert">
+      <article className="prose mx-auto py-8 dark:prose-invert prose-code:prose-p:text-primary">
         <h1>Axios</h1>
 
         <p>
@@ -88,6 +115,78 @@ export default async function AxiosPage() {
         <CodeSheet code={sourceFormHelpers} html={highlightedSourceFormHelpers}>
           Form Helpers Source Code
         </CodeSheet>
+
+        <h2>What this allows you to do.</h2>
+        <p>
+          This allows you to follow a simple syntax for making requests. It also handles the error handling and response
+          handling for you. This approach ensures a consistent format for all your requests.
+        </p>
+
+        <CodeSheet code={sourceExample1} html={highlightedSourceExample1}>
+          View Full Example
+        </CodeSheet>
+
+        <h2>Let's break it down.</h2>
+        <pre className="p-4">
+          {/*{import { API } from '@/app/fetching/(fetching)/axios/api';*/}
+
+          {/*  const params = { limit: 10 };*/}
+          {/*  const {*/}
+          {/*  data: articles,*/}
+          {/*  status,*/}
+          {/*  errors,*/}
+          {/*} = await API.get<Article[], typeof params>('/api/articles', {*/}
+          {/*  params,*/}
+          {/*});*/}
+          {/*}*/}
+          <code dangerouslySetInnerHTML={{ __html: highlightedSourceSnippet1 }} />
+        </pre>
+        <p>
+          The following code is an example of how to use the API class to make a request. It is a simple example of how
+          to fetch a list of articles from an API.
+        </p>
+        <p>
+          We have defined an interface for the response data we expect to receive and add it as a generic to the{' '}
+          <code>API.get</code> function. like so: <code>API.get&lt;Article[], typeof params&gt;</code> where{' '}
+          <code>Article[]</code> is the expected response data and <code>typeof params</code> is the type of the params
+          (obviously).
+        </p>
+        <p>
+          The <code>params</code> object is used to pass query parameters to the request. In this case, we are passing a{' '}
+          <code>limit</code> parameter to the request.
+        </p>
+        <p>
+          The geneated URL will look like this: <code>/API_URL/articles?limit=10</code>
+        </p>
+        <h3>Validation errors</h3>
+        <p>
+          Now when a validation error occurs, the <code>errors</code> will contain a generic error message on{' '}
+          <code>errors.message</code> as well as the specific error messages on <code>errors.fields</code>. We expect
+          that fields is only ever present when the status code is 422 (Unprocessable Entity).
+        </p>
+        <p>
+          If this was a client component we'd use the form helpers to set the errors on the form fields. But since pages
+          are server components and we assume that the developer applied the correct params to the get request, we
+          should throw an error to notify the developer that they are using the API incorrectly.
+        </p>
+        <p>
+          This does again come with the expectation that the error responses from the backend are consistent. If they
+          are not, you will have to adjust the API class to handle the errors properly.
+        </p>
+        <p>Here is how that would look in a server component:</p>
+        <pre className="p-4">
+          <code dangerouslySetInnerHTML={{ __html: highlightedSourceSnippet2 }} />
+        </pre>
+
+        <h3>Successful responses</h3>
+        <p>
+          If errors is null or falsy, then we can safely assume that the request was successful. The <code>data</code>{' '}
+          will contain the response data specified in the <code>Article[]</code> type we defined as the first generic
+          parameter to the <code>.get</code> method and the <code>status</code> will contain the status code of the
+          response. This will typically be 200, 201 or 204.
+        </p>
+
+        <p>You could then do additional handling depending on the status code you got.</p>
       </article>
     </main>
   );

@@ -1,0 +1,69 @@
+import Image from 'next/image';
+
+import type { FieldErrors } from './api';
+
+import { API } from './api';
+
+interface Article {
+  id: number;
+  title: string;
+  content: string;
+  image: string;
+}
+
+class ValidationError extends Error {
+  public fields: FieldErrors<any>;
+  constructor(message: string, fields: FieldErrors<any>) {
+    super(message);
+    this.name = 'ValidationError';
+    this.fields = fields;
+  }
+}
+
+export default async function ArticlePage() {
+  const params = { limit: 10 };
+  const {
+    data: articles,
+    status,
+    errors,
+  } = await API.get<Article[], typeof params>('/api/articles', {
+    params,
+  });
+  // You can use status to do additional error handling
+
+  if (errors) {
+    switch (true) {
+      case !!errors.fields:
+        // Fetch requests from the server should basically never get validation errors, because most likely the developer made a mistake.
+        // If you do get a validation error, it's a good idea to throw an error so that the developer can fix it.
+        throw new ValidationError(errors.message, errors.fields);
+
+      case status === 423:
+        // If some status codes require the user to be informed, you can handle them here.
+        return (
+          <div>
+            <h1>Your order is older than 30 days.</h1>
+            <p> This means you can no longer return it. Please contact us if you have any questions.</p>
+          </div>
+        );
+      default:
+        throw new Error(errors.message);
+    }
+  }
+
+  return <Articles articles={articles} />;
+}
+
+const Articles = ({ articles }: { articles: Article[] }) => {
+  return (
+    <section>
+      {articles.map(article => (
+        <figure key={article.id}>
+          <h1>{article.title}</h1>
+          <Image alt={article.title} src={article.image} />
+          <figcaption>{article.content}</figcaption>
+        </figure>
+      ))}
+    </section>
+  );
+};

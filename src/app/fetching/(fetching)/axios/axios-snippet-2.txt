@@ -1,0 +1,24 @@
+const {data: articles, status, errors} =
+  await API.get<Article[], typeof params>('/api/articles', {
+  params,
+});
+
+if (errors) {
+  switch (true) {
+    case !!errors.fields:
+      // Fetch requests from the server should basically never get validation errors, because most likely the developer made a mistake.
+      // If you do get a validation error, it's a good idea to throw an error so that the developer can fix it.
+      throw new ValidationError(errors.message, errors.fields);
+
+    case status === 423:
+      // If some status codes require the user to be informed, you can handle them here.
+      return (
+        <div>
+          <h1>Your order is older than 30 days.</h1>
+          <p> This means you can no longer return it. Please contact us if you have any questions.</p>
+        </div>
+      );
+    default:
+      throw new Error(errors.message);
+  }
+}
